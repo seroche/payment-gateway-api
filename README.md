@@ -41,23 +41,22 @@ You can use the Postman file `PaymentGateway.postman_collection.json` included i
 
 - Use DDD to design and organize business logic
 - Make the API as consistent as possible by returning standardized errors (=same structure) or results
-- Return a `Result` object instead of returning `null` or throwing exceptions
-- `Result` objects are translated by controllers to `404-NotFound`, `404-BadRequest` based on their types
-- `ValueObject` must be built with the associated static `Create`
+- When creating ValueObject, return a `Result` instead of returning `null` or throwing exceptions
+- Always return `Result` in handler. Those are then translated by controllers to `404-NotFound`, `404-BadRequest` based on their respective type
+- `ValueObject` must be built with the associated static `Create` method
 - Endpoints are organized by `features`
 
 ## Flow
 
-Since we cannot predict how fast the bank will process a request and return a response with the `PaymentId`, we need to make
-the `[POST] /payments` endpoint asynchronous.
+Since we cannot predict how fast the bank will process a request and return a response, we need to make the `[POST] /payments` endpoint asynchronous.
 
-The flow is:
+Our current flow is:
 
 1. Send a payment request to `[POST] /payments` endpoint
 2. Once the request validated, a `MakePayment` command is sent using `MassTransit`. In parallel, a job representing the current operation is created
-3. Eventually the `[POST] /payments` endpoint will return `202-Accepted` + a `Location` header containing the url to query the job details
-4. Calling the `[GET] /jobs/:id` endpoint returns the job status (`Created`, `Failed` or `Completed`), an error (if failed) and the `EntityId` (if completed). 
-5. Once the EntityId (=PaymentId) determined, call the `[GET] /payments/:id` endpoint to retrieve the payment details.
+3. Eventually the `[POST] /payments` endpoint returns `202-Accepted` + a `Location` header containing the url to query the job details
+4. Calling the `[GET] /jobs/:id` endpoint returns the job status (`Created`, `Failed` or `Completed`), an error (if failed) and the `EntityId` (if completed)
+5. Once the EntityId (=PaymentId) determined, call the `[GET] /payments/:id` endpoint to retrieve the payment details
 
 ## Extra miles
 
