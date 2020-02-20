@@ -26,7 +26,7 @@ namespace Checkout.PaymentGateway.Domain.Payments
         /// Returns a <see cref="ExpiryDate"/>.
         /// </summary>
         /// <param name="month">The expiry month.</param>
-        /// <param name="year">The expiry year</param>
+        /// <param name="year">The expiry year.</param>
         /// <returns>A <see cref="Result{ExpiryDate}"/> containing either an expiry date or an error.</returns>
         public static Result<ExpiryDate> Create(int month, int year)
         {

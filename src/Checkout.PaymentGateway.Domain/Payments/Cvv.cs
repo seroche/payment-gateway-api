@@ -12,12 +12,12 @@ namespace Checkout.PaymentGateway.Domain.Payments
         private Cvv(string code) => Code = code;
 
         public string Code { get; private set; }
-        
+
         /// <summary>
         /// Returns a <see cref="Cvv"/>.
         /// </summary>
         /// <param name="code">The CVV code.</param>
-        /// <returns>A <see cref="Cvv"/> containing either a CVV code or an error.</returns>
+        /// <returns>A <see cref="Result{Cvv}"/> containing either a CVV code or an error.</returns>
         public static Result<Cvv> Create(string code)
         {
             if (code is null) throw new ArgumentNullException(nameof(code));
