@@ -4,16 +4,13 @@ namespace Checkout.PaymentGateway.Domain
 {
     public static class Errors
     {
-        #region Errors raised within the payment request feature
+        #region Errors raised within the payment feature
         public static Error InvalidCurrency => new Error(nameof(InvalidCurrency));
         public static Error InvalidAmount => new Error(nameof(InvalidAmount));
         public static Error InvalidCardNumber => new Error(nameof(InvalidCardNumber));
         public static Error InvalidExpiryDate => new Error(nameof(InvalidExpiryDate));
         public static Error InvalidCvv => new Error(nameof(InvalidCvv));
         public static Error ExpiredCard => new Error(nameof(ExpiredCard));
-        #endregion
-
-        #region Errors raised within the payment feature
         public static Error UnknownPayment => new UnknownItemError(nameof(UnknownPayment));
         #endregion
 
