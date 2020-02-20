@@ -38,7 +38,8 @@ namespace Checkout.PaymentGateway.Api
                 });
         }
 
-        public void Configure(IApplicationBuilder app) =>
+        public void Configure(IApplicationBuilder app)
+        {
             app
                 .UseRouting()
                 .UseSerilogRequestLogging(opts =>
@@ -51,5 +52,6 @@ namespace Checkout.PaymentGateway.Api
                 .UseAuthentication()
                 .UseAuthorization()
                 .UseEndpoints(endpoints => endpoints.MapControllers());
+        }
     }
 }

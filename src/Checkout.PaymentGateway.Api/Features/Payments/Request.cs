@@ -1,6 +1,5 @@
 ﻿using Checkout.PaymentGateway.Api.Mediator;
 using Checkout.PaymentGateway.Api.Messaging;
-using Checkout.PaymentGateway.Domain;
 using Checkout.PaymentGateway.Domain.Core;
 using Checkout.PaymentGateway.Domain.Payments;
 using Checkout.PaymentGateway.Domain.Payments.Commands;
@@ -74,11 +73,11 @@ namespace Checkout.PaymentGateway.Api.Features.Payments
                 var cvv = Cvv.Create(command.Card.Cvv).GetValue();
 
                 var card = Card.Create(number, expiryDate, cvv, command.Card.HolderName);
-                
+
                 // Starts the async job
                 return Ok(
                     await _bus.StartAsync(
-                        new MakePayment(command.MerchantId, card.GetValue(), price, command.Description?? string.Empty), token));
+                        new MakePayment(command.MerchantId, card.GetValue(), price, command.Description ?? string.Empty), token));
             }
         }
         #endregion
