@@ -83,16 +83,16 @@ Example: `{ $.Elapsed > 10 }`
 The JSON file `XXX` defines the structure of the CI pipeline I use:
 
 1. Starts when Github triggers `CodePipeline` through a `Webhook`
-2. Builds it within a docker container and push the newly created docker image to our ECR repository
+2. Builds it within a docker container and pushes the new docker image to an ECR repository
 3. Adds the `Staging` tag to this image
-4. Starts the staging deployment by creating a new Task definitions and forcing a new deployment in the associated service
+4. Starts the staging deployment by creating a new task definition and forcing a new deployment in the associated service
 5. Requires a manual approval (SNS notification)
 6. Adds the `Production` tag to this image
-7. Starts the production deployment by creating a new Task definitions and forcing a new deployment in the associated service
+7. Starts the production deployment by creating a new task definition and forcing a new deployment in the associated service
 
 Note: Both `XXX.json` and `XXX.json` need to be processed by a script replacing available variables (%XXX%) and then calling the `AWS CLI`. Another option could be to use a CloudFormation template.
 
-Note 2: In this CI, we use another PWS script to run all tests and merge the new code to master.
+Note 2: This CI flow is triggered by another PWS script running all tests, merging the new code to master and eventually creating a new GitHub release.
 
 ### Docker
 
