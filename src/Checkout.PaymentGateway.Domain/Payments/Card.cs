@@ -44,7 +44,6 @@ namespace Checkout.PaymentGateway.Domain.Payments
             if (expiryDate is null) throw new ArgumentNullException(nameof(expiryDate));
             if (cvv is null) throw new ArgumentNullException(nameof(cvv));
 
-            // TODO: Add Readme about CVV validation and CardNumber
             return Result.Ok(new Card(number, expiryDate, cvv, holderName));
         }
     }
