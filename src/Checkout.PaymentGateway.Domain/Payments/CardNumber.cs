@@ -19,7 +19,7 @@ namespace Checkout.PaymentGateway.Domain.Payments
         }
 
         /// <summary>
-        /// Mask the card number except the specified number of digits starting from the end.
+        /// Only displays the specified number of digits starting from the end.
         /// </summary>
         /// <param name="numberOfDigitsShown">The number of digits to show.</param>
         /// <returns>The masked card number.</returns>
@@ -40,7 +40,7 @@ namespace Checkout.PaymentGateway.Domain.Payments
         {
             if (number is null) throw new ArgumentNullException(nameof(number));
 
-            var sanitized = Sanitize(number);
+            var sanitized = new string(number.Where(IsDigit).ToArray());
 
             if (string.IsNullOrEmpty(sanitized))
                 return Result.Fail<CardNumber>(Errors.InvalidCardNumber);
@@ -50,8 +50,5 @@ namespace Checkout.PaymentGateway.Domain.Payments
                 ? Result.Fail<CardNumber>(Errors.InvalidCardNumber)
                 : Result.Ok(new CardNumber(sanitized));
         }
-
-        private static string Sanitize(string number)
-            => new string(number.Where(IsDigit).ToArray());
     }
 }
