@@ -69,12 +69,12 @@ The flow is:
 
 ### Logs
 
-I used Serilog for his structured logs support.
+I used Serilog for his `structured logs` support.
 
-- `ContextLoggingFilter` logs all incoming requests and associated response (=result)
+- `ContextLoggingFilter` logs all incoming requests and associated responses (=result)
 - `UseSerilogRequestLogging` (middleware) logs the response time
 
-One common scenario is to push these logs to `AWS CloudWatch`. Since all logs are JSON object, we can query our logs with the CW Logs syntax.
+One common scenario is to push these logs to `AWS CloudWatch`. Since all logs are JSON object, we can query our logs with the `CW Logs` query syntax.
 
 Example: `{ $.Elapsed > 10 }`
 
@@ -90,7 +90,7 @@ The JSON file `XXX` defines the structure of the CI pipeline I use:
 6. Adds the `Production` tag to this image
 7. Starts the production deployment by creating a new task definition and forcing a new deployment in the associated service
 
-Note: Both `XXX.json` and `XXX.json` need to be processed by a script replacing available variables (%XXX%) and then calling the `AWS CLI`. Another option could be to use a CloudFormation template.
+Note: Both `XXX.json` and `XXX.json` are processed by a script replacing available variables (%XXX%) and calling the `AWS CLI`. Another option could be to use a `CloudFormation` template.
 
 Note 2: This CI flow is triggered by another PWS script running all tests, merging the new code to master and eventually creating a new GitHub release.
 
