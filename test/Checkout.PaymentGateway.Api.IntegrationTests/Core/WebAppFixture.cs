@@ -2,8 +2,15 @@
 using System.IO;
 using Alba;
 using Baseline;
+using Checkout.PaymentGateway.Api.Logs;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Extensions.Hosting;
+using Serilog.Extensions.Logging;
 using Xunit;
 
 namespace Checkout.PaymentGateway.Api.IntegrationTests.Core
@@ -22,6 +29,21 @@ namespace Checkout.PaymentGateway.Api.IntegrationTests.Core
             var builder = WebHost
                 .CreateDefaultBuilder()
                 .UseStartup<Startup>()
+                .ConfigureServices(((ctx, services) =>
+                {
+                    var logger = new LoggerConfiguration()
+                        .WriteTo.Debug()
+                        .CreateLogger();
+
+                    Log.Logger = logger; // Required by RequestLoggingMiddleware
+                    var context = new DiagnosticContext(logger);
+
+                    services
+                        .AddSingleton(context)
+                        .AddSingleton<IDiagnosticContext>(context)
+                        .AddSingleton<ILoggerFactory>(new SerilogLoggerFactory(logger, true))
+                        .AddSingleton(logger);
+                }))
                 .UseEnvironment("Development")
                 .UseContentRoot(
                     Path.Combine(
