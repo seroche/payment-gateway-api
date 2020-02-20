@@ -28,20 +28,7 @@ namespace Checkout.PaymentGateway.Api.IntegrationTests.Payments
                 .HttpResponse(a => a.HasStatusCode(HttpStatusCode.Unauthorized))
                 .Result(r => r.IsEqual(Errors.UnauthorizedAccess.Code, m => m.Code));
         }
-
-        [Fact]
-        public async Task Request_ShouldReturn400Error_WhenDescriptionIsMissing()
-        {
-            var command = Data.ValidRequestPaymentCommand;
-            command.Description = null;
-
-            (await Post<ApiError>(command, Data.ValidApiKey))
-                .Assert()
-                .HttpResponse(a => a.HasStatusCode(HttpStatusCode.BadRequest))
-                .Result(r => r.IsEqual(Errors.MissingRequiredParameter.Code, m => m.Code));
-        }
-
-
+        
         [Theory]
         [InlineData("")]
         [InlineData("A")]
