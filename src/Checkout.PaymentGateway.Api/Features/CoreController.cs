@@ -16,10 +16,10 @@ namespace Checkout.PaymentGateway.Api.Features
     public class CoreController : ControllerBase
     {
         /// <summary>
-        /// Returns a <see cref="JsonResult"/> containing a <see cref="TValue"/> or an <see cref="Error"/>.
+        /// Returns a <see cref="JsonResult"/> with a value or an <see cref="Error"/>.
         /// </summary>
         /// <typeparam name="TValue">Expected result type</typeparam>
-        /// <param name="result">The <see cref="Result{T}"/></param>
+        /// <param name="result">The <see cref="Result{TValue}"/></param>
         /// <returns></returns>
         [NonAction]
         protected ActionResult<TValue> Return<TValue>(Result<TValue> result)

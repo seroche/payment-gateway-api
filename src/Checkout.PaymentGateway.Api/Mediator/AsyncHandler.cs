@@ -23,7 +23,7 @@ namespace Checkout.PaymentGateway.Api.Mediator
         /// <summary>
         /// Returns a success
         /// </summary>
-        /// <param name="result">The expected <see cref="TResult"/></param>
+        /// <param name="result">The expected object.</param>
         /// <returns></returns>
         protected Result<TResult> Ok(TResult result) => Result.Ok(result);
 

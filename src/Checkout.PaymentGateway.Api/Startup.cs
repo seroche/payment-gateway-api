@@ -9,7 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Events;
 using System;
+using System.IO;
 using System.Reflection;
+using Microsoft.OpenApi.Models;
 
 namespace Checkout.PaymentGateway.Api
 {
@@ -29,6 +31,15 @@ namespace Checkout.PaymentGateway.Api
                 .AddBus(assembly)
                 .AddPersistence()
                 .AddScoped<IBankProcessor, SimpleOneBankProcessor>()
+                .AddSwaggerGen(opts =>
+                {
+                    opts.SwaggerDoc("v1", new OpenApiInfo
+                    {
+                        Title = "Payment Gateway API",
+                        Version = "v1"
+                    });
+                    opts.CustomSchemaIds(x => x.FullName);
+                })
                 .AddControllers(opts =>
                 {
                     opts.Filters.Add<ModelBindingValidatorFilter>();
@@ -39,13 +50,19 @@ namespace Checkout.PaymentGateway.Api
         public void Configure(IApplicationBuilder app) =>
             app
                 .UseRouting()
+                .UseMiddleware<ErrorHandlingMiddleware>()
+                .UseSwagger()
+                .UseSwaggerUI(opts =>
+                {
+                    opts.RoutePrefix = "docs"; 
+                    opts.SwaggerEndpoint("/swagger/v1/swagger.json", "Payment Gateway API V1");
+                })
                 .UseSerilogRequestLogging(opts =>
                 {
                     // Performance tracker
                     opts.MessageTemplate = "{StatusCode} response returned in {Elapsed:0.0000}ms.";
                     opts.GetLevel = (ctx, dur, ex) => LogEventLevel.Information;
                 })
-                .UseMiddleware<ErrorHandlingMiddleware>()
                 .UseAuthentication()
                 .UseAuthorization()
                 .UseEndpoints(endpoints => endpoints.MapControllers());
