@@ -1,0 +1,115 @@
+{
+	"info": {
+		"_postman_id": "c3c25c3c-b2d6-4f27-9d5a-197280602ea8",
+		"name": "PaymentGateway",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1- [POST] /payments",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "284653e1-a691-4a9a-bac4-76d934c8ab3c",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer ap_123",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"amount\": 1000,\n\t\"currency\": \"HKD\",\n\t\"description\": \"Test\",\n\t\"card\": {\n\t\t\"number\": \"4111 1111 1111 1111\",\n\t\t\"cvv\": \"123\",\n\t\t\"expiryMonth\": 11,\n\t\t\"expiryYear\": 2020,\n\t\t\"holderName\": \"Sebastien\"\n\t}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:50947/payments/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "50947",
+					"path": [
+						"payments",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2- [GET] /jobs/:id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer ap_123",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:50947/jobs/XXX",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "50947",
+					"path": [
+						"jobs",
+						"XXX"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3- [GET] /payments/:id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer ap_123",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:50947/payments/XXX",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "50947",
+					"path": [
+						"payments",
+						"XXX"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
