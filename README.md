@@ -33,7 +33,7 @@ You can use the Postman file `PaymentGateway.postman_collection.json` included i
 - Mediatr to decouple controllers from queries/commands handlers
 - FluentValidation to validate requests through a pipeline built on top of a Mediatr
 - Masstransit to send commands (CQRS) or publish events raised while interacting with our domain
-- Alba + an home made framework to run integration tests
+- Alba + an homemade framework to run integration tests
 - xUnit for unit testing
 - Serilog for structured logs
 
@@ -97,7 +97,7 @@ Note 2: This CI flow is triggered by another PWS script running all tests, mergi
 
 Docker images are built using the `dockerfile` and `buildspec.yml` files provided in this repository. 
 
-- `builspec.yml` is an `AWS CodeBuild` file containing all commands to build/push some code. In our case, it runs the `docker build` command and push the created image to an ECR respository 
+- `builspec.yml` is an `AWS CodeBuild` file containing all commands to build/push some code. In our case, it runs the `docker build` command and push the created image to an ECR repository 
 - `Dockerfile` contains all the steps required to build a new image
 
 ## Improvements
