@@ -1,5 +1,11 @@
 # Payment Gateway
 
+### Assumptions
+
+- API is located under an application load balancer (ALB) decrypting HTTPS traffic. Hence this API is HTTP. When deployed we should setup ASP.NET core to use forwarded headers
+- Bank could be slow to process requests
+- Payment should be made to a `MerchantId`. This id should not be passed through the request but determined based on the `ApiKey` passed to the API
+
 ## How to run the API
 
 Open the solution with `Visual Studio 2019` and start the debug. 
