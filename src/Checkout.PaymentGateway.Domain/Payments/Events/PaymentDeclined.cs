@@ -1,5 +1,4 @@
-﻿using System;
-using Checkout.PaymentGateway.Domain.Core;
+﻿using Checkout.PaymentGateway.Domain.Core;
 
 namespace Checkout.PaymentGateway.Domain.Payments.Events
 {

@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
-using Serilog.Events;
 using Serilog.Extensions.Hosting;
 using Serilog.Extensions.Logging;
 
@@ -33,7 +32,7 @@ namespace Checkout.PaymentGateway.Api
                         .MinimumLevel.Information()
                         .WriteTo.Debug()
                         .CreateLogger();
-                    
+
                     Log.Logger = logger; // Required by RequestLoggingMiddleware
                     var context = new DiagnosticContext(logger);
 

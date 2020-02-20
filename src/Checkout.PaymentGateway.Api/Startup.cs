@@ -1,22 +1,20 @@
 using AutoMapper;
 using Checkout.BankProcessor.Domain;
 using Checkout.BankProcessor.SimpleOne;
+using Checkout.PaymentGateway.Api.Logs;
 using Checkout.PaymentGateway.Api.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Reflection;
-using Checkout.PaymentGateway.Api.Logs;
 using Serilog;
 using Serilog.Events;
+using System;
+using System.Reflection;
 
 namespace Checkout.PaymentGateway.Api
 {
     public class Startup
     {
-        public Startup() { }
-
         public void ConfigureServices(IServiceCollection services)
         {
             var assembly = Assembly.GetAssembly(typeof(Startup)) ?? throw new NotSupportedException();
@@ -30,7 +28,7 @@ namespace Checkout.PaymentGateway.Api
                 .AddPipeline(assembly)
                 .AddBus(assembly)
                 .AddPersistence()
-                .AddScoped<IBankProcessor, SimpleOneBankProcessor>() // Processor could be added using nuget package if we have different one.
+                .AddScoped<IBankProcessor, SimpleOneBankProcessor>()
                 .AddControllers(opts =>
                 {
                     opts.Filters.Add<ModelBindingValidatorFilter>();
@@ -38,8 +36,7 @@ namespace Checkout.PaymentGateway.Api
                 });
         }
 
-        public void Configure(IApplicationBuilder app)
-        {
+        public void Configure(IApplicationBuilder app) =>
             app
                 .UseRouting()
                 .UseSerilogRequestLogging(opts =>
@@ -52,6 +49,5 @@ namespace Checkout.PaymentGateway.Api
                 .UseAuthentication()
                 .UseAuthorization()
                 .UseEndpoints(endpoints => endpoints.MapControllers());
-        }
     }
 }
