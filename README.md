@@ -2,10 +2,10 @@
 
 ## How to run the API
 
-Open the solution with Visual Studio 2019 and start the debug. 
+Open the solution with `Visual Studio 2019` and start the debug. 
 
 - Default project should be set to `Checkout.PaymentGateway.Api` 
-- Default port is 50947. It can be changed by modifying the `launchSettings.json` file under the `Checkout.PaymentGateway.Api` VS project
+- Default port is `50947`. It can be changed by modifying the `launchSettings.json` file under the `Checkout.PaymentGateway.Api` project
 
 You can use the Postman file `PaymentGateway.postman_collection.json` included in the repository:
 
@@ -80,7 +80,7 @@ Example: `{ $.Elapsed > 10 }`
 
 ### CI
 
-The JSON file `XXX` defines the structure of the generic CI pipeline I use:
+The JSON file `XXX` defines the structure of the CI pipeline I use:
 
 1. Starts when Github triggers `CodePipeline` through a `Webhook`
 2. Builds it within a docker container and push the newly created docker image to our ECR repository
@@ -90,23 +90,20 @@ The JSON file `XXX` defines the structure of the generic CI pipeline I use:
 6. Adds the `Production` tag to this image
 7. Starts the production deployment by creating a new Task definitions and forcing a new deployment in the associated service
 
-Note: Both `XXX.json` and `XXX.json` are designed to be processed by a script replacing available variables (%XXX%) and calling the AWS CLI. A better option could be to use a CloudFormation template.
+Note: Both `XXX.json` and `XXX.json` need to be processed by a script replacing available variables (%XXX%) and then calling the `AWS CLI`. Another option could be to use a CloudFormation template.
+
+Note 2: In this CI, we use another PWS script to run all tests and merge the new code to master.
 
 ### Docker
 
-Docker images are build using the `dockerfile` and `buildspec.yml` provided in this repository. 
+Docker images are built using the `dockerfile` and `buildspec.yml` files provided in this repository. 
 
-- `builspec.yml` contains the commands to run the `docker build` command and push the created image to an ECR respository. `CodeBuild` relies on this file to build the source code 
+- `builspec.yml` is an `AWS CodeBuild` file containing all commands to build/push some code. In our case, it runs the `docker build` command and push the created image to an ECR respository 
 - `Dockerfile` contains all the steps required to build a new image
-
-Eventually two files are returned as artifacts:
-
-1. definition.uat.json contains the path to the docker image to use in Staging (image tag = staging)
-2. definition.prd.json contains the path to the docker image to use in Production (image tag = production)
 
 ## Improvements
 
 - Supports 3D Secure
 - Supports more payment methods
-- Persists data in a NoSQL/tradition database. Currently we use a InMemoryCache to persist data
-- Deploy API and associated infrastructure with CloudFormation template
+- Persists data in a NoSQL/traditional database. Currently we use persist data in memory
+- Deploy API and associated infrastructure elements with CloudFormation template
