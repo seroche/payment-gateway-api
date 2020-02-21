@@ -1,0 +1,178 @@
+{
+	"pipeline": {
+		"name": "%ServiceName%",
+		"roleArn": "arn:aws:iam::949519472813:role/codepipeline-service-role",
+		"artifactStore": {
+			"type": "S3",
+			"location": "codepipeline-ap-southeast-1-121613956548"
+		},
+		"stages": [
+			{
+				"name": "Source",
+				"actions": [
+					{
+						"name": "Download-Source",
+						"actionTypeId": {
+							"category": "Source",
+							"owner": "ThirdParty",
+							"provider": "GitHub",
+							"version": "1"
+						},
+						"configuration": {
+							"Owner": "tectac",
+							"Repo": "%GitHubName%",
+							"PollForSourceChanges": "false",
+							"Branch": "master",
+							"OAuthToken": "%GitHubToken%"
+						},
+						"outputArtifacts": [
+							{
+								"name": "SourceArtifact"
+							}
+						]
+					}
+				]
+			},
+			{
+				"name": "Build",
+				"actions": [
+					{
+						"name": "Build-Code",
+						"actionTypeId": {
+							"category": "Build",
+							"owner": "AWS",
+							"provider": "CodeBuild",
+							"version": "1"
+						},
+						"configuration": {
+							"ProjectName": "%ServiceName%"
+						},
+						"inputArtifacts": [
+							{
+								"name": "SourceArtifact"
+							}
+						],
+						"outputArtifacts": [
+							{
+								"name": "BuildArtifact"
+							}
+						]
+					}
+				]
+			},
+			{
+				"name": "Staging-Image-Tag",
+				"actions": [
+					{
+						"name": "Tag-Image",
+						"actionTypeId": {
+							"category": "Build",
+							"owner": "AWS",
+							"provider": "CodeBuild",
+							"version": "1"
+						},
+						"configuration": {
+							"ProjectName": "docker-image-tag",
+							"EnvironmentVariables": "[{\"name\":\"STAGE\",\"value\":\"staging\",\"type\":\"PLAINTEXT\"},{\"name\":\"IMAGE_REPO_NAME\",\"value\":\"%ServiceName%\",\"type\":\"PLAINTEXT\"}]"
+						},
+						"inputArtifacts": [
+							{
+								"name": "SourceArtifact"
+							}
+						]
+					}
+				]
+			},
+			{
+				"name": "Staging",
+				"actions": [
+					{
+						"name": "Deploy-Staging",
+						"actionTypeId": {
+							"category": "Deploy",
+							"owner": "AWS",
+							"provider": "ECS",
+							"version": "1"
+						},
+						"configuration": {
+							"ClusterName": "%StagingClusterName%",
+							"ServiceName": "%ServiceName%",
+							"FileName": "definition.uat.json"
+						},
+						"inputArtifacts": [
+							{
+								"name": "BuildArtifact"
+							}
+						]
+					}
+				]
+			},
+			{
+				"name": "Approval",
+				"actions": [
+					{
+						"name": "Approve-Deployment",
+						"actionTypeId": {
+							"category": "Approval",
+							"owner": "AWS",
+							"provider": "Manual",
+							"version": "1"
+						},
+						"configuration": {
+							"NotificationArn": "arn:aws:sns:ap-southeast-1:949519472813:notify-development",
+							"CustomData": "%ServiceName% is pending approval for **Production** deployment"
+						}
+					}
+				]
+			},
+			{
+				"name": "Production-Image-Tag",
+				"actions": [
+					{
+						"name": "Tag-Image",
+						"actionTypeId": {
+							"category": "Build",
+							"owner": "AWS",
+							"provider": "CodeBuild",
+							"version": "1"
+						},
+						"configuration": {
+							"ProjectName": "docker-image-tag",
+							"EnvironmentVariables": "[{\"name\":\"STAGE\",\"value\":\"production\",\"type\":\"PLAINTEXT\"},{\"name\":\"IMAGE_REPO_NAME\",\"value\":\"%ServiceName%\",\"type\":\"PLAINTEXT\"}]"
+						},
+						"inputArtifacts": [
+							{
+								"name": "SourceArtifact"
+							}
+						]
+					}
+				]
+			},
+			{
+				"name": "Production",
+				"actions": [
+					{
+						"name": "Deploy-Production",
+						"actionTypeId": {
+							"category": "Deploy",
+							"owner": "AWS",
+							"provider": "ECS",
+							"version": "1"
+						},
+						"configuration": {
+							"ClusterName": "%ProductionClusterName%",
+							"ServiceName": "%ServiceName%",
+							"FileName": "definition.prd.json"
+						},
+						"inputArtifacts": [
+							{
+								"name": "BuildArtifact"
+							}
+						]
+					}
+				]
+			}
+		],
+		"version": 1
+	}
+}

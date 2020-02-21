@@ -1,0 +1,7 @@
+{
+    "repositoryName": "%ServiceName%",
+    "imageTagMutability": "MUTABLE",
+    "imageScanningConfiguration": {
+        "scanOnPush": true
+    }
+}

@@ -4,8 +4,7 @@ using Microsoft.AspNetCore.Http;
 namespace Checkout.PaymentGateway.Api.IntegrationTests.Core
 {
     public sealed class Empty { }  // API calls returning empty bodies
-
-
+    
     public class Response
     {
         public HttpContext Context { get; private set; }

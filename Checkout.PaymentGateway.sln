@@ -37,6 +37,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Checkout.BankProcessor.Simp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Checkout.PaymentGateway.Api.UnitTests", "test\Checkout.PaymentGateway.Api.UnitTests\Checkout.PaymentGateway.Api.UnitTests.csproj", "{906CA1F6-4461-45E9-B073-6F18B1C57BF3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ci", "ci", "{91639521-1DE0-4D20-9A1A-85CFC5B7C4CF}"
+	ProjectSection(SolutionItems) = preProject
+		codebuild.json = codebuild.json
+		codepipeline-webhook.json = codepipeline-webhook.json
+		codepipeline.json = codepipeline.json
+		ecr-lifecycle-policy.json = ecr-lifecycle-policy.json
+		ecr-repository.json = ecr-repository.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

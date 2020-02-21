@@ -1,0 +1,17 @@
+{
+	"webhook": {
+		"name": "%WebhookName%",
+		"targetPipeline": "%ServiceName%",
+		"targetAction": "Download-Source",
+		"filters": [
+			{
+				"jsonPath": "$.ref",
+				"matchEquals": "refs/heads/{Branch}"
+			}
+		],
+		"authentication": "GITHUB_HMAC",
+		"authenticationConfiguration": {
+			"SecretToken": "%TecTacGitHubToken%"
+		}
+	}
+}

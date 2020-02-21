@@ -1,0 +1,31 @@
+{
+  "rules": [
+    {
+      "action": {
+        "type": "expire"
+      },
+      "selection": {
+        "countType": "imageCountMoreThan",
+        "countNumber": 20,
+        "tagStatus": "tagged",
+        "tagPrefixList": [
+          "development"
+        ]
+      },
+      "description": "Remove development docker images",
+      "rulePriority": 1
+    },
+	{
+      "action": {
+        "type": "expire"
+      },
+      "selection": {
+        "countType": "imageCountMoreThan",
+        "countNumber": 1,
+        "tagStatus": "untagged"
+      },
+      "description": "Remove untagged docker images",
+      "rulePriority": 2
+    }
+  ]
+}
