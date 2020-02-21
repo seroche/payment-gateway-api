@@ -12,6 +12,7 @@ Open the solution with `Visual Studio 2019` and start the debug.
 
 - Default project should be set to `Checkout.PaymentGateway.Api` 
 - Default port is `50947`. It can be changed by modifying the `launchSettings.json` file under the `Checkout.PaymentGateway.Api` project
+- Swagger Doc: http://localhost:50947/docs
 
 You can use the Postman file `PaymentGateway.postman_collection.json` included in the repository:
 
