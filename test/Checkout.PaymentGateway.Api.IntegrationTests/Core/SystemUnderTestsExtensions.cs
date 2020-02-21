@@ -24,10 +24,10 @@ namespace Checkout.PaymentGateway.Api.IntegrationTests.Core
                 _.Configure = ctx => ctx.HttpMethod(method.Method);
 
                 // Replaces route data
-                var expr = _.Url(endpoint, request);
+                _.Url(endpoint, request);
 
-                if (method == HttpMethod.Get) expr.QueryStringEx(request);
-                else _.Body.JsonInputIs(request);
+                // Adds JSON body
+                if (method == HttpMethod.Post) _.Body.JsonInputIs(request);
 
                 _.IgnoreStatusCode();
             }, apiKey)
@@ -64,12 +64,6 @@ namespace Checkout.PaymentGateway.Api.IntegrationTests.Core
                 newUrl = newUrl.Replace($"{{{tag}}}", value, StringComparison.OrdinalIgnoreCase);
             }
             return scenario.As<IUrlExpression>().Url(newUrl);
-        }
-
-        private static SendExpression QueryStringEx<TRequest>(this SendExpression expression, TRequest routeData)
-        {
-            var properties = ToDictionary(routeData).Where(x => !string.IsNullOrWhiteSpace(x.Value));
-            return properties.Aggregate(expression, (current, p) => current.QueryString(p.Key, p.Value));
         }
 
         private static IDictionary<string, string?> ToDictionary<T>(T obj)
