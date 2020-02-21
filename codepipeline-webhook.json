@@ -11,7 +11,7 @@
 		],
 		"authentication": "GITHUB_HMAC",
 		"authenticationConfiguration": {
-			"SecretToken": "%TecTacGitHubToken%"
+			"SecretToken": "%GitHubToken%"
 		}
 	}
 }
