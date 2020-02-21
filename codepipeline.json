@@ -19,7 +19,7 @@
 							"version": "1"
 						},
 						"configuration": {
-							"Owner": "tectac",
+							"Owner": "seroche",
 							"Repo": "%GitHubName%",
 							"PollForSourceChanges": "false",
 							"Branch": "master",
