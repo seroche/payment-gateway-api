@@ -86,7 +86,7 @@ Example: `{ $.Elapsed > 10 }`
 
 ### CI
 
-The JSON file `XXX` defines the structure of the CI pipeline I use:
+The JSON file under the ci folder defines the CI pipeline I usually use in AWS:
 
 1. Starts when Github triggers `CodePipeline` through a `Webhook`
 2. Builds it within a docker container and pushes the new docker image to an ECR repository
@@ -96,7 +96,7 @@ The JSON file `XXX` defines the structure of the CI pipeline I use:
 6. Adds the `Production` tag to this image
 7. Starts the production deployment by creating a new task definition and forcing a new deployment in the associated service
 
-Note: Both `XXX.json` and `XXX.json` are processed by a script replacing available variables (%XXX%) and calling the `AWS CLI`. Another option could be to use a `CloudFormation` template.
+Note: all scripts are processed by a script replacing available variables (%XXX%) and calling the `AWS CLI`. Another option could be to use a `CloudFormation` template.
 
 Note 2: This CI flow is triggered by another PWS script running all tests, merging the new code to master and eventually creating a new GitHub release.
 
