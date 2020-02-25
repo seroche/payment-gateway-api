@@ -109,7 +109,7 @@ Docker images are built using the `dockerfile` and `buildspec.yml` files provide
 
 ## Improvements
 
-- Supports 3D Secure
+- Supports 3D Secure / Tokenisation
 - Improves CVV validation. Indeed most cards come with a 3 digits CVV. However AMEX come with a 4 digits. 
 - Supports more payment methods
 - Persists data in a NoSQL/traditional database. Currently we use persist data in memory
